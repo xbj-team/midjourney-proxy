@@ -92,14 +92,14 @@ public abstract class MessageHandler {
 				String label = sonObj.getString("label","");
 				if(Strings.isBlank(label)){
 					DataObject emoji = sonObj.getObject("emoji");
-					 label  = emoji.getString("name");
+					 label  = emoji.getString("name","");
 				}
 				option.setLabel(label);
-				int type = sonObj.getInt("type");
+				int type = sonObj.getInt("type",-1);
 				option.setType(type);
-				int style = sonObj.getInt("style");
+				int style = sonObj.getInt("style",-1);
 				option.setStyle(style);
-				String custom = sonObj.getString("custom_id");
+				String custom = sonObj.getString("custom_id","");
 				option.setCustom(custom);
 				options.add(option);
 			}
