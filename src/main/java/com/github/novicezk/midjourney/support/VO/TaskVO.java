@@ -4,6 +4,7 @@ import com.github.novicezk.midjourney.support.Task;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
+import org.json.JSONObject;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
 @Data
 @Slf4j
 public class TaskVO {
-    private Long id;
+    private String id;
     private int flags;
     private List<String> descriptions;
     private String content;
@@ -21,18 +22,18 @@ public class TaskVO {
     private String progress;
     private String uri;
     private String proxy_url;
-    private List<Option> options;
+    private String options;
 
     public static TaskVO bulid(Task task) {
         log.info("TaskVO.bulid->task:{}",task);
         TaskVO taskVO=new TaskVO();
         try {
-            Long messageId = task.getProperty("messageId", Long.class,-1L);
+            String messageId = task.getProperty("messageId", String.class,"");
             Integer flags = task.getProperty("flags", Integer.class,-1);
             String hash = task.getProperty("messageHash", String.class,"");
             String proxy_url = task.getProperty("imageProxyUrl", String.class,"");
             String content = task.getProperty("finalPrompt", String.class,"");
-            List<Option> options = task.getProperty("options", List.class,new ArrayList());
+            String options = task.getProperty("options", String.class,"");
             String progress = task.getProgress();
             String uri = task.getImageUrl();
             taskVO.setId(messageId);
