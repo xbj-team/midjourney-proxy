@@ -48,6 +48,13 @@ public class DiscordServiceImpl implements DiscordService {
 	}
 
 	@Override
+	public Message<Void> info(String nonce) {
+		String paramsStr = replaceInteractionParams(this.paramsMap.get("info"), nonce);
+		JSONObject params = new JSONObject(paramsStr);
+		return postJsonAndCheckStatus(params.toString());
+	}
+
+	@Override
 	public Message<Void> imagine(String prompt, String nonce) {
 		String paramsStr = replaceInteractionParams(this.paramsMap.get("imagine"), nonce);
 		JSONObject params = new JSONObject(paramsStr);

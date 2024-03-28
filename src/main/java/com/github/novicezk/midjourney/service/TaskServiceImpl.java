@@ -125,4 +125,16 @@ public class TaskServiceImpl implements TaskService {
 		});
 	}
 
+	@Override
+	public SubmitResultVO submitInfo(Task task) {
+		DiscordInstance discordInstance = this.discordLoadBalancer.chooseInstance();
+		if (discordInstance == null) {
+			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "无可用的账号实例");
+		}
+		task.setProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID, discordInstance.getInstanceId());
+		return discordInstance.submitTask(task, () -> {
+			return discordInstance.info( task.getPropertyGeneric(Constants.TASK_PROPERTY_NONCE));
+		});
+	}
+
 }

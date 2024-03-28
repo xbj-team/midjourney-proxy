@@ -179,6 +179,11 @@ public class DiscordInstanceImpl implements DiscordInstance {
 	}
 
 	@Override
+	public Message<Void> info(String nonce) {
+		return this.service.info(nonce);
+	}
+
+	@Override
 	public Message<Void> imagine(String prompt, String nonce) {
 		return this.service.imagine(prompt, nonce);
 	}

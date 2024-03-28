@@ -54,6 +54,14 @@ public class SubmitController {
 	private final ProxyProperties properties;
 	private final TaskService taskService;
 
+	@ApiOperation(value = "个人信息")
+	@PostMapping("/info")
+	public SubmitResultVO info() {
+		Task task = newTask(new BaseSubmitDTO() {});
+		task.setAction(TaskAction.INFO);
+		return this.taskService.submitInfo(task);
+	}
+
 	@ApiOperation(value = "提交Imagine任务")
 	@PostMapping("/imagine")
 	public SubmitResultVO imagine(@RequestBody SubmitImagineDTO imagineDTO) {

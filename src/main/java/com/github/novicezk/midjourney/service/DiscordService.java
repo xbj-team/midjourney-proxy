@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface DiscordService {
 
+	Message<Void> info(String nonce);
+
 	Message<Void> imagine(String prompt, String nonce);
 
 	Message<Void> upscale(String messageId, int index, String messageHash, int messageFlags, String nonce);
