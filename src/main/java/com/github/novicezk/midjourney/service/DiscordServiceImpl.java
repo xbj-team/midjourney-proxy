@@ -49,9 +49,7 @@ public class DiscordServiceImpl implements DiscordService {
 
 	@Override
 	public Message<Void> info(String nonce) {
-		log.info("开始获取调用接口的参数");
 		String paramsStr = replaceInteractionParams(this.paramsMap.get("info"), nonce);
-		log.info("完成获取调用接口的参数");
 		JSONObject params = new JSONObject(paramsStr);
 		return postJsonAndCheckStatus(params.toString());
 	}
