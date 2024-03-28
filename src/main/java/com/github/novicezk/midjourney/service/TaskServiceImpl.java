@@ -13,9 +13,12 @@ import eu.maxschuster.dataurl.DataUrl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -126,11 +129,20 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public SubmitResultVO submitInfo(Task task) {
-		DiscordInstance discordInstance = this.discordLoadBalancer.chooseInstance();
-		if (discordInstance == null) {
-			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "无可用的账号实例");
-		}
+	public SubmitResultVO submitInfo(Task task,String id) {
+//		List<DiscordInstance> allInstances = this.discordLoadBalancer.getAllInstances();
+//		if (CollectionUtils.isEmpty(allInstances)) {
+//			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "无可用的账号实例");
+//		}
+//		List<DiscordInstance>  aliveInstances = allInstances.stream().filter(p -> p.isAlive()).collect(Collectors.toList());
+//		if(CollectionUtils.isEmpty(aliveInstances)){
+//			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "无可用的账号实例");
+//		}
+//		for (DiscordInstance discordInstance:aliveInstances){
+//			task.setProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID, discordInstance.getInstanceId());
+//			return  discordInstance.info(task.getPropertyGeneric(Constants.TASK_PROPERTY_NONCE));
+//		}
+		DiscordInstance discordInstance = this.discordLoadBalancer.getDiscordInstance(id);
 		task.setProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID, discordInstance.getInstanceId());
 		return discordInstance.submitTask(task, () -> {
 			return discordInstance.info( task.getPropertyGeneric(Constants.TASK_PROPERTY_NONCE));

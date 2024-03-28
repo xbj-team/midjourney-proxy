@@ -49,7 +49,9 @@ public class DiscordServiceImpl implements DiscordService {
 
 	@Override
 	public Message<Void> info(String nonce) {
+		log.info("开始获取调用接口的参数");
 		String paramsStr = replaceInteractionParams(this.paramsMap.get("info"), nonce);
+		log.info("完成获取调用接口的参数");
 		JSONObject params = new JSONObject(paramsStr);
 		return postJsonAndCheckStatus(params.toString());
 	}
@@ -200,6 +202,7 @@ public class DiscordServiceImpl implements DiscordService {
 		headers.set("Authorization", this.account.getUserToken());
 		headers.set("User-Agent", this.account.getUserAgent());
 		HttpEntity<String> httpEntity = new HttpEntity<>(paramsStr, headers);
+		log.info("真实调用接口的参数,url={},httpEntity={}",url,JSONObject.valueToString(httpEntity));
 		return this.restTemplate.postForEntity(url, httpEntity, String.class);
 	}
 

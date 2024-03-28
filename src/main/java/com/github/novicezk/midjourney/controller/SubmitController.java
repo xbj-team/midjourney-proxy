@@ -30,11 +30,9 @@ import eu.maxschuster.dataurl.DataUrlSerializer;
 import eu.maxschuster.dataurl.IDataUrlSerializer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -55,11 +53,11 @@ public class SubmitController {
 	private final TaskService taskService;
 
 	@ApiOperation(value = "个人信息")
-	@PostMapping("/info")
-	public SubmitResultVO info() {
+	@PostMapping("/info/{id}")
+	public SubmitResultVO info(@ApiParam(value = "账号ID") @PathVariable String id) {
 		Task task = newTask(new BaseSubmitDTO() {});
 		task.setAction(TaskAction.INFO);
-		return this.taskService.submitInfo(task);
+		return this.taskService.submitInfo(task,id);
 	}
 
 	@ApiOperation(value = "提交Imagine任务")

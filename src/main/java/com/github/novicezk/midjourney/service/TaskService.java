@@ -21,5 +21,5 @@ public interface TaskService {
 
 	SubmitResultVO submitBlend(Task task, List<DataUrl> dataUrls, BlendDimensions dimensions);
 
-	SubmitResultVO submitInfo(Task task);
+	SubmitResultVO submitInfo(Task task,String id);
 }

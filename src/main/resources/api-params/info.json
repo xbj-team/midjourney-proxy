@@ -3,13 +3,16 @@
   "application_id": "936929561302675456",
   "guild_id": "$guild_id",
   "channel_id": "$channel_id",
-  "session_id":"$session_id",
+  "session_id": "$session_id",
+  "nonce": "$nonce",
   "data": {
-    "version": "1166847114203123796",
-    "id": "1062880104792997970",
+    "version": "1166847114203123799",
+    "id": "972289487818334209",
     "name": "info",
     "type": 1,
-    "options": [],
+    "options": [
+
+    ],
     "application_command": {
       "id": "972289487818334209",
       "type": 1,
@@ -18,14 +21,19 @@
       "name": "info",
       "description": "View information about your profile.",
       "dm_permission": true,
-      "integration_types": [0],
+      "integration_types": [
+        0
+      ],
       "global_popularity_rank": 2,
-      "options": [],
+      "options": [
+
+      ],
       "description_localized": "View information about your profile.",
       "name_localized": "info"
     },
-    "attachments": []
+    "attachments": [
+
+    ]
   },
-  "nonce": "$nonce",
   "analytics_location": "slash_ui"
 }
