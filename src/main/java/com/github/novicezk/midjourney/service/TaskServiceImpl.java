@@ -14,10 +14,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -143,6 +145,9 @@ public class TaskServiceImpl implements TaskService {
 //			return  discordInstance.info(task.getPropertyGeneric(Constants.TASK_PROPERTY_NONCE));
 //		}
 		DiscordInstance discordInstance = this.discordLoadBalancer.getDiscordInstance(id);
+		if (Objects.isNull(discordInstance)) {
+			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "无可用的账号实例");
+		}
 		task.setProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID, discordInstance.getInstanceId());
 		return discordInstance.submitTask(task, () -> {
 			return discordInstance.info( task.getPropertyGeneric(Constants.TASK_PROPERTY_NONCE));
