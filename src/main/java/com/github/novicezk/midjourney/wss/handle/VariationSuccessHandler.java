@@ -6,6 +6,7 @@ import com.github.novicezk.midjourney.loadbalancer.DiscordInstance;
 import com.github.novicezk.midjourney.support.TaskCondition;
 import com.github.novicezk.midjourney.util.ContentParseData;
 import com.github.novicezk.midjourney.util.ConvertUtils;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.utils.data.DataObject;
 import org.springframework.stereotype.Component;
 
@@ -17,12 +18,14 @@ import java.util.Set;
  * 完成(create): **cat** - Variations by <@1012983546824114217> (relaxed)
  */
 @Component
+@Slf4j
 public class VariationSuccessHandler extends MessageHandler {
 	private static final String CONTENT_REGEX_1 = "\\*\\*(.*?)\\*\\* - Variations by <@\\d+> \\((.*?)\\)";
 	private static final String CONTENT_REGEX_2 = "\\*\\*(.*?)\\*\\* - Variations \\(.*?\\) by <@\\d+> \\((.*?)\\)";
 
 	@Override
 	public void handle(DiscordInstance instance, MessageType messageType, DataObject message) {
+//		log.info("variation回调：{}", JSONObject.valueToString(message));
 		String content = getMessageContent(message);
 		ContentParseData parseData = getParseData(content);
 		if (MessageType.CREATE.equals(messageType) && parseData != null && hasImage(message)) {

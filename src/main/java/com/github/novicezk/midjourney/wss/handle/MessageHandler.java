@@ -8,10 +8,14 @@ import com.github.novicezk.midjourney.loadbalancer.DiscordLoadBalancer;
 import com.github.novicezk.midjourney.support.DiscordHelper;
 import com.github.novicezk.midjourney.support.Task;
 import com.github.novicezk.midjourney.support.TaskCondition;
+import com.github.novicezk.midjourney.support.VO.Option;
 import net.dv8tion.jda.api.utils.data.DataArray;
 import net.dv8tion.jda.api.utils.data.DataObject;
+import org.apache.logging.log4j.util.Strings;
+import org.json.JSONObject;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Optional;
 
@@ -71,7 +75,36 @@ public abstract class MessageHandler {
 		task.setProperty(Constants.TASK_PROPERTY_MESSAGE_ID, message.getString("id"));
 		task.setProperty(Constants.TASK_PROPERTY_FLAGS, message.getInt("flags", 0));
 		task.setProperty(Constants.TASK_PROPERTY_MESSAGE_HASH, this.discordHelper.getMessageHash(task.getImageUrl()));
+		task.setProperty("imageProxyUrl",getImageProxyUrl(message));
+		addition(task, message);
 		task.success();
+	}
+
+	private void addition(Task task, DataObject message) {
+		task.setProperty(Constants.TASK_PROPERTY_MESSAGE_HASH, this.discordHelper.getMessageHash(task.getImageUrl()));
+		DataArray components = message.getArray("components");
+		ArrayList<Option> options=new ArrayList<>();
+		for (int c = 0; c < components.length(); c++) {
+			DataArray sonComponents =components.getObject(c).getArray("components");
+			for (int b = 0; b < sonComponents.length(); b++) {
+				Option option=new Option();
+				DataObject sonObj =sonComponents.getObject(b);
+				String label = sonObj.getString("label","");
+				if(Strings.isBlank(label)){
+					DataObject emoji = sonObj.getObject("emoji");
+					 label  = emoji.getString("name");
+				}
+				option.setLabel(label);
+				int type = sonObj.getInt("type");
+				option.setType(type);
+				int style = sonObj.getInt("style");
+				option.setStyle(style);
+				String custom = sonObj.getString("custom_id");
+				option.setCustom(custom);
+				options.add(option);
+			}
+		}
+		task.setProperty("options", JSONObject.valueToString(options));
 	}
 
 	protected boolean hasImage(DataObject message) {
@@ -83,6 +116,15 @@ public abstract class MessageHandler {
 		DataArray attachments = message.getArray("attachments");
 		if (!attachments.isEmpty()) {
 			String imageUrl = attachments.getObject(0).getString("url");
+			return replaceCdnUrl(imageUrl);
+		}
+		return null;
+	}
+
+	protected String getImageProxyUrl(DataObject message) {
+		DataArray attachments = message.getArray("attachments");
+		if (!attachments.isEmpty()) {
+			String imageUrl = attachments.getObject(0).getString("proxy_url");
 			return replaceCdnUrl(imageUrl);
 		}
 		return null;

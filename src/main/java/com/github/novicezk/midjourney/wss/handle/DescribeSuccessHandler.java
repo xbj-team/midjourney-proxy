@@ -7,6 +7,7 @@ import com.github.novicezk.midjourney.enums.TaskAction;
 import com.github.novicezk.midjourney.loadbalancer.DiscordInstance;
 import com.github.novicezk.midjourney.support.Task;
 import com.github.novicezk.midjourney.support.TaskCondition;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.utils.data.DataArray;
 import net.dv8tion.jda.api.utils.data.DataObject;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import java.util.Set;
  * describe消息处理.
  */
 @Component
+@Slf4j
 public class DescribeSuccessHandler extends MessageHandler {
 
 	@Override
@@ -27,6 +29,8 @@ public class DescribeSuccessHandler extends MessageHandler {
 
 	@Override
 	public void handle(DiscordInstance instance, MessageType messageType, DataObject message) {
+//		log.info("describe回调：{}", JSONObject.valueToString(message));
+
 		String messageId = message.getString("id");
 		if (MessageType.CREATE.equals(messageType)) {
 			String interactionName = getInteractionName(message);
