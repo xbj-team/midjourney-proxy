@@ -32,9 +32,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -46,6 +50,7 @@ import java.util.regex.Pattern;
 @RestController
 @RequestMapping("/submit")
 @RequiredArgsConstructor
+@Slf4j
 public class SubmitController {
 	private final TranslateService translateService;
 	private final TaskStoreService taskStoreService;
@@ -58,6 +63,21 @@ public class SubmitController {
 		Task task = newTask(new BaseSubmitDTO() {});
 		task.setAction(TaskAction.INFO);
 		return this.taskService.submitInfo(task,id);
+	}
+
+	@ApiOperation(value = "个人信息")
+	@GetMapping("/getImage")
+	public static BufferedImage getImage(@ApiParam(value = "图片地址")  String img) {
+		try {
+			// 创建一个URL对象
+			URL url = new URL(img);
+			// 使用ImageIO读取URL指向的图片
+			return ImageIO.read(url);
+		} catch (Exception e) {
+			log.info("getImage:{}",e);
+			// 如果发生IO异常，返回null
+			return null;
+		}
 	}
 
 	@ApiOperation(value = "提交Imagine任务")
