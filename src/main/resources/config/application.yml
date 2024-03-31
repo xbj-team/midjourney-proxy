@@ -30,7 +30,7 @@ mj:
     guild-id: 1221334710953840641
     user-token: MTIyMTMzMDE0NzY2ODY1NjE1MQ.Gb2a1o.z3gQw6_3KqX1sUgvpXQUj166RjSk-ZUnrp_y_Q
     channel-id: 1221334711461478462
-  notify-hook: http://127.0.0.1:8081/mj/task/callback
+  notify-hook: http://47.103.25.45:8080/midjounery/callback
 #  task-store:
 #    type: redis
 #    timeout: 90d

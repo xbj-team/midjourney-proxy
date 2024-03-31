@@ -4,13 +4,13 @@ import cn.hutool.cache.CacheUtil;
 import cn.hutool.cache.impl.TimedCache;
 import cn.hutool.core.comparator.CompareUtil;
 import cn.hutool.core.text.CharSequenceUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.novicezk.midjourney.Constants;
 import com.github.novicezk.midjourney.ProxyProperties;
 import com.github.novicezk.midjourney.enums.TaskStatus;
 import com.github.novicezk.midjourney.support.Task;
-import com.github.novicezk.midjourney.support.VO.TaskVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -46,8 +46,8 @@ public class NotifyServiceImpl implements NotifyService {
 		String statusStr = task.getStatus() + ":" + task.getProgress();
 		log.trace("Wait notify task change, task: {}({}), hook: {}", taskId, statusStr, notifyHook);
 		try {
-			TaskVO taskVO=TaskVO.bulid(task);
-			String paramsStr = OBJECT_MAPPER.writeValueAsString(taskVO);
+			String paramsStr = OBJECT_MAPPER.writeValueAsString(task);
+			log.info("回调数据:{}", JSONObject.toJSONString(task));
 			this.executor.execute(() -> {
 				try {
 					executeNotify(taskId, statusStr, notifyHook, paramsStr);

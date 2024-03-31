@@ -1,5 +1,6 @@
 package com.github.novicezk.midjourney.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,11 @@ public class TaskCallbackController {
     @ApiOperation(value = "任务回调")
     @PostMapping("/callback")
     public ResponseEntity<String> callback(@RequestBody Object body) {
-        log.info("callback,{}", body.toString());
+        log.info("callback-source,{}", body.toString());
+        String jsonString = JSONObject.toJSONString(body);
+        log.info("callback-source-json,{}",jsonString);
+//        MjDescriptionCallback mjDescriptionCallback = JSONObject.parseObject(jsonString, MjDescriptionCallback.class);
+//        log.info("callback-transfer,{}", JSONObject.toJSONString(mjDescriptionCallback));
         ResponseEntity.BodyBuilder status = ResponseEntity.status(2);
         return status.build();
     }
