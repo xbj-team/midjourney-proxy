@@ -60,11 +60,11 @@ public class SubmitController {
 	private final TaskService taskService;
 
 	@ApiOperation(value = "个人信息")
-	@PostMapping("/info/{id}")
-	public SubmitResultVO info(@ApiParam(value = "账号ID") @PathVariable String id) {
+	@PostMapping("/info")
+	public void info() {
 		Task task = newTask(new BaseSubmitDTO() {});
 		task.setAction(TaskAction.INFO);
-		return this.taskService.submitInfo(task,id);
+		this.taskService.submitInfo(task);
 	}
 
 	@ApiOperation(value = "个人信息")

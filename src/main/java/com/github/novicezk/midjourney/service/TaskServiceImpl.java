@@ -12,6 +12,7 @@ import com.github.novicezk.midjourney.util.MimeTypeUtils;
 import eu.maxschuster.dataurl.DataUrl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
@@ -131,27 +132,21 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public SubmitResultVO submitInfo(Task task,String id) {
-//		List<DiscordInstance> allInstances = this.discordLoadBalancer.getAllInstances();
-//		if (CollectionUtils.isEmpty(allInstances)) {
-//			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "无可用的账号实例");
-//		}
-//		List<DiscordInstance>  aliveInstances = allInstances.stream().filter(p -> p.isAlive()).collect(Collectors.toList());
-//		if(CollectionUtils.isEmpty(aliveInstances)){
-//			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "无可用的账号实例");
-//		}
-//		for (DiscordInstance discordInstance:aliveInstances){
-//			task.setProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID, discordInstance.getInstanceId());
-//			return  discordInstance.info(task.getPropertyGeneric(Constants.TASK_PROPERTY_NONCE));
-//		}
-		DiscordInstance discordInstance = this.discordLoadBalancer.getDiscordInstance(id);
-		if (Objects.isNull(discordInstance)) {
+	public SubmitResultVO submitInfo(Task task) {
+		List<DiscordInstance> allInstances = this.discordLoadBalancer.getAllInstances();
+		if (CollectionUtils.isEmpty(allInstances)) {
 			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "无可用的账号实例");
 		}
-		task.setProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID, discordInstance.getInstanceId());
-		return discordInstance.submitTask(task, () -> {
-			return discordInstance.info( task.getPropertyGeneric(Constants.TASK_PROPERTY_NONCE));
-		});
+		List<DiscordInstance> aliveInstances = allInstances.stream().filter(p -> p.isAlive()).collect(Collectors.toList());
+		if (CollectionUtils.isEmpty(aliveInstances)) {
+			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "无可用的账号实例");
+		}
+		for (DiscordInstance discordInstance : aliveInstances) {
+			task.setProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID, discordInstance.getInstanceId());
+			Message<Void> info = discordInstance.info(task.getPropertyGeneric(Constants.TASK_PROPERTY_NONCE));
+			log.info("info:{}", JSONObject.valueToString(info));
+		}
+		return null;
 	}
 
 }
