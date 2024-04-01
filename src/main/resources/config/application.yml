@@ -23,12 +23,12 @@ knife4j:
           - com.github.novicezk.midjourney.controller
 mj:
   accounts[0]:
-      userToken: MTIyMTMzMDE0NzY2ODY1NjE1MQ.GQOaM6.dYev-ISy51Sw5NoDbuHRzsE9WfNQh4IxG74lIA
+      userToken: MTIyMTMzMDE0NzY2ODY1NjE1MQ.G7tgkA.BbzAGg_QBZyRn_1C8bvb0Ro1E3EnQNbJLzaec0
       guild-id: 1221334710953840641
       channel-id: 1221334711461478462
   discord:
     guild-id: 1221334710953840641
-    user-token: MTIyMTMzMDE0NzY2ODY1NjE1MQ.GQOaM6.dYev-ISy51Sw5NoDbuHRzsE9WfNQh4IxG74lIA
+    user-token: MTIyMTMzMDE0NzY2ODY1NjE1MQ.G7tgkA.BbzAGg_QBZyRn_1C8bvb0Ro1E3EnQNbJLzaec0
     channel-id: 1221334711461478462
   notify-hook: http://aigc.xcwhai.com/xbj/midjounery/callback
 #  task-store:
