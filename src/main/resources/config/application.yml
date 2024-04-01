@@ -31,6 +31,7 @@ mj:
     user-token: MTIyMTMzMDE0NzY2ODY1NjE1MQ.G7tgkA.BbzAGg_QBZyRn_1C8bvb0Ro1E3EnQNbJLzaec0
     channel-id: 1221334711461478462
   notify-hook: http://aigc.xcwhai.com/xbj/midjounery/callback
+#  notify-hook: http://mj.xcwhai.com/xbj/mj/task/callback
 #  task-store:
 #    type: redis
 #    timeout: 90d

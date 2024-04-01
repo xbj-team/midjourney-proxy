@@ -47,7 +47,7 @@ public class NotifyServiceImpl implements NotifyService {
 		log.trace("Wait notify task change, task: {}({}), hook: {}", taskId, statusStr, notifyHook);
 		try {
 			String paramsStr = OBJECT_MAPPER.writeValueAsString(task);
-			log.info("回调数据:{}", JSONObject.toJSONString(task));
+			log.info("回调数据:{}", paramsStr);
 			this.executor.execute(() -> {
 				try {
 					executeNotify(taskId, statusStr, notifyHook, paramsStr);
