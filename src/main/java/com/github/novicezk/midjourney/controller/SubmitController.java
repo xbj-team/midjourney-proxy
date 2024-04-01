@@ -37,6 +37,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -67,12 +69,18 @@ public class SubmitController {
 
 	@ApiOperation(value = "个人信息")
 	@GetMapping("/getImage")
-	public static BufferedImage getImage(@ApiParam(value = "图片地址")  String img) {
+	public static byte[] getImage(@ApiParam(value = "图片地址")  String img) {
 		try {
 			// 创建一个URL对象
 			URL url = new URL(img);
 			// 使用ImageIO读取URL指向的图片
-			return ImageIO.read(url);
+			InputStream inputStream = url.openStream();
+			BufferedImage image = ImageIO.read(inputStream);
+
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			ImageIO.write(image, "png", outputStream);
+
+			return outputStream.toByteArray();
 		} catch (Exception e) {
 			log.info("getImage:{}",e);
 			// 如果发生IO异常，返回null
