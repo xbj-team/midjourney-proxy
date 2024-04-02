@@ -5,6 +5,7 @@ import cn.hutool.core.util.RandomUtil;
 import com.github.novicezk.midjourney.Constants;
 import com.github.novicezk.midjourney.ProxyProperties;
 import com.github.novicezk.midjourney.ReturnCode;
+import com.github.novicezk.midjourney.domain.DiscordAccount;
 import com.github.novicezk.midjourney.dto.BaseSubmitDTO;
 import com.github.novicezk.midjourney.dto.SubmitBlendDTO;
 import com.github.novicezk.midjourney.dto.SubmitChangeDTO;
@@ -15,6 +16,8 @@ import com.github.novicezk.midjourney.enums.TaskAction;
 import com.github.novicezk.midjourney.enums.TaskStatus;
 import com.github.novicezk.midjourney.enums.TranslateWay;
 import com.github.novicezk.midjourney.exception.BannedPromptException;
+import com.github.novicezk.midjourney.loadbalancer.DiscordInstance;
+import com.github.novicezk.midjourney.loadbalancer.DiscordLoadBalancer;
 import com.github.novicezk.midjourney.result.SubmitResultVO;
 import com.github.novicezk.midjourney.service.TaskService;
 import com.github.novicezk.midjourney.service.TaskStoreService;
@@ -58,13 +61,21 @@ public class SubmitController {
 	private final TaskStoreService taskStoreService;
 	private final ProxyProperties properties;
 	private final TaskService taskService;
+	private final DiscordLoadBalancer loadBalancer;
 
 	@ApiOperation(value = "个人信息")
-	@PostMapping("/info/{id}")
-	public SubmitResultVO info(@ApiParam(value = "账号ID") @PathVariable String id) {
-		Task task = newTask(new BaseSubmitDTO() {});
-		task.setAction(TaskAction.INFO);
-		return this.taskService.submitInfo(task,id);
+	@PostMapping("/info")
+	public List<SubmitResultVO> info(@ApiParam(value = "账号ID") @PathVariable String id) {
+		List<DiscordAccount> list = this.loadBalancer.getAllInstances().stream().map(DiscordInstance::account).toList();
+		List<SubmitResultVO> arrayList=new ArrayList<>();
+		list.stream().forEach(p -> {
+			Task task = newTask(new BaseSubmitDTO() {
+			});
+			task.setAction(TaskAction.INFO);
+			SubmitResultVO submitResultVO = this.taskService.submitInfo(task, id);
+			arrayList.add(submitResultVO);
+		});
+		return arrayList;
 	}
 
 	@ApiOperation(value = "个人信息")

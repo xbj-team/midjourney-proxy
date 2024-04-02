@@ -23,13 +23,21 @@ knife4j:
           - com.github.novicezk.midjourney.controller
 mj:
   accounts[0]:
-      userToken: MTIyMTMzMDE0NzY2ODY1NjE1MQ.G7tgkA.BbzAGg_QBZyRn_1C8bvb0Ro1E3EnQNbJLzaec0
-      guild-id: 1221334710953840641
-      channel-id: 1221334711461478462
+    userToken: MTIyMDI0OTg5MjgxMTk2NDQzNw.GNnQ86.qzMLSvjKRkKYcIrIy0qqa8eybDSyg2d0yPUcMA
+    guild-id: 1220251207642255390
+    channel-id: 1220251207642255393
   discord:
-    guild-id: 1221334710953840641
-    user-token: MTIyMTMzMDE0NzY2ODY1NjE1MQ.G7tgkA.BbzAGg_QBZyRn_1C8bvb0Ro1E3EnQNbJLzaec0
-    channel-id: 1221334711461478462
+    guild-id: 1220251207642255390
+    user-token: MTIyMDI0OTg5MjgxMTk2NDQzNw.GNnQ86.qzMLSvjKRkKYcIrIy0qqa8eybDSyg2d0yPUcMA
+    channel-id: 1220251207642255393
+#  accounts[0]:
+#      userToken: MTIyMDI0OTg5MjgxMTk2NDQzNw.GNnQ86.qzMLSvjKRkKYcIrIy0qqa8eybDSyg2d0yPUcMA
+#      guild-id: 1221334710953840641
+#      channel-id: 1221334711461478462
+#  discord:
+#    guild-id: 1221334710953840641
+#    user-token: MTIyMDI0OTg5MjgxMTk2NDQzNw.GNnQ86.qzMLSvjKRkKYcIrIy0qqa8eybDSyg2d0yPUcMA
+#    channel-id: 1221334711461478462
   notify-hook: http://aigc.xcwhai.com/xbj/midjounery/callback
 #  notify-hook: http://mj.xcwhai.com/xbj/mj/task/callback
 #  task-store:
