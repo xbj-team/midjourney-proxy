@@ -65,14 +65,14 @@ public class SubmitController {
 
 	@ApiOperation(value = "个人信息")
 	@PostMapping("/info")
-	public List<SubmitResultVO> info(@ApiParam(value = "账号ID") @PathVariable String id) {
+	public List<SubmitResultVO> info() {
 		List<DiscordAccount> list = this.loadBalancer.getAllInstances().stream().map(DiscordInstance::account).toList();
 		List<SubmitResultVO> arrayList=new ArrayList<>();
 		list.stream().forEach(p -> {
 			Task task = newTask(new BaseSubmitDTO() {
 			});
 			task.setAction(TaskAction.INFO);
-			SubmitResultVO submitResultVO = this.taskService.submitInfo(task, id);
+			SubmitResultVO submitResultVO = this.taskService.submitInfo(task, p.getId());
 			arrayList.add(submitResultVO);
 		});
 		return arrayList;
