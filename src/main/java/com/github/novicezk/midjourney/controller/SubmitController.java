@@ -72,7 +72,7 @@ public class SubmitController {
 			Task task = newTask(new BaseSubmitDTO() {
 			});
 			task.setAction(TaskAction.INFO);
-			SubmitResultVO submitResultVO = this.taskService.submitInfo(task, p.getId());
+			SubmitResultVO submitResultVO = this.taskService.submitInfo(task, p.getChannelId());
 			arrayList.add(submitResultVO);
 		});
 		return arrayList;

@@ -23,25 +23,28 @@ knife4j:
           - com.github.novicezk.midjourney.controller
 mj:
   accounts[0]:
-    userToken: MTIyMDI0OTg5MjgxMTk2NDQzNw.GNnQ86.qzMLSvjKRkKYcIrIy0qqa8eybDSyg2d0yPUcMA
+    userToken: MTIyMDI0OTg5MjgxMTk2NDQzNw.GIXRMZ.7HkjmSWzN3uqWwnRKzAgpbMGhVyvAdoXJ2wvEM
     guild-id: 1220251207642255390
     channel-id: 1220251207642255393
   accounts[1]:
-      userToken: MTIyMTMzMDE0NzY2ODY1NjE1MQ.GBNdET.OA-zhSY_HjkOjh1xooZOIdl1_6uChGXr87_UUk
-      guild-id: 1221334710953840641
-      channel-id: 1221334711461478462
+    userToken: MTIyMTMzMDE0NzY2ODY1NjE1MQ.GNWTVh.laqtAQeXKZKkPBrrhTIU1i8ooG78GxvalrLuUo
+    guild-id: 1221334710953840641
+    channel-id: 1221334711461478462
+  accounts[2]:
+    userToken: MTE4MTg2NTkxNTU1ODY1ODA5MQ.GNkO4w.2DhX1-4PwRe2umgIBImU1CKKElU-j0-6SB9DiA
+    guild-id: 1181866555231965285
+    channel-id: 1181866555231965288
   discord:
     guild-id: 1220251207642255390
-    user-token: MTIyMDI0OTg5MjgxMTk2NDQzNw.GNnQ86.qzMLSvjKRkKYcIrIy0qqa8eybDSyg2d0yPUcMA
+    user-token: MTIyMDI0OTg5MjgxMTk2NDQzNw.GIXRMZ.7HkjmSWzN3uqWwnRKzAgpbMGhVyvAdoXJ2wvEM
     channel-id: 1220251207642255393
 
 
   notify-hook: http://aigc.xcwhai.com/xbj/midjounery/callback
-#  notify-hook: http://mj.xcwhai.com/xbj/mj/task/callback
-#  task-store:
-#    type: redis
-#    timeout: 90d
-#
+  task-store:
+    type: redis
+    timeout: 10000d
+
 spring:
   redis:
     host: 127.0.0.1
