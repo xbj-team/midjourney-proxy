@@ -22,4 +22,6 @@ public interface TaskService {
 	SubmitResultVO submitBlend(Task task, List<DataUrl> dataUrls, BlendDimensions dimensions);
 
 	SubmitResultVO submitInfo(Task task,String id);
+
+    SubmitResultVO submitZoomout(Task task, String messageId, String messageHash, Integer index, int messageFlags,String ratio);
 }

@@ -156,4 +156,15 @@ public class TaskServiceImpl implements TaskService {
 		});
 	}
 
+	@Override
+	public SubmitResultVO submitZoomout(Task task, String messageId, String messageHash, Integer index, int messageFlags,String ratio) {
+		String instanceId = task.getPropertyGeneric(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID);
+		DiscordInstance discordInstance = this.discordLoadBalancer.getDiscordInstance(instanceId);
+		if (discordInstance == null || !discordInstance.isAlive()) {
+			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "账号不可用: " + instanceId);
+		}
+		return discordInstance.submitTask(task, () -> discordInstance.zoomout(messageId, index, messageHash, messageFlags, task.getPropertyGeneric(Constants.TASK_PROPERTY_NONCE),ratio));
+
+	}
+
 }

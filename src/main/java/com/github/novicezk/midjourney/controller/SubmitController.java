@@ -6,12 +6,7 @@ import com.github.novicezk.midjourney.Constants;
 import com.github.novicezk.midjourney.ProxyProperties;
 import com.github.novicezk.midjourney.ReturnCode;
 import com.github.novicezk.midjourney.domain.DiscordAccount;
-import com.github.novicezk.midjourney.dto.BaseSubmitDTO;
-import com.github.novicezk.midjourney.dto.SubmitBlendDTO;
-import com.github.novicezk.midjourney.dto.SubmitChangeDTO;
-import com.github.novicezk.midjourney.dto.SubmitDescribeDTO;
-import com.github.novicezk.midjourney.dto.SubmitImagineDTO;
-import com.github.novicezk.midjourney.dto.SubmitSimpleChangeDTO;
+import com.github.novicezk.midjourney.dto.*;
 import com.github.novicezk.midjourney.enums.TaskAction;
 import com.github.novicezk.midjourney.enums.TaskStatus;
 import com.github.novicezk.midjourney.enums.TranslateWay;
@@ -191,6 +186,34 @@ public class SubmitController {
 		} else {
 			return this.taskService.submitReroll(task, messageId, messageHash, messageFlags);
 		}
+	}
+
+	@ApiOperation(value = "绘图变化")
+	@PostMapping("/zoomout")
+	public SubmitResultVO zoomout(@RequestBody SubmitZoomoutDTO changeDTO) {
+		if (CharSequenceUtil.isBlank(changeDTO.getTaskId())) {
+			return SubmitResultVO.fail(ReturnCode.VALIDATION_ERROR, "taskId不能为空");
+		}
+		String description = "";
+		Task targetTask = this.taskStoreService.get(changeDTO.getTaskId());
+		if (targetTask == null) {
+			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "关联任务不存在或已失效");
+		}
+		if (!TaskStatus.SUCCESS.equals(targetTask.getStatus())) {
+			return SubmitResultVO.fail(ReturnCode.VALIDATION_ERROR, "关联任务状态错误");
+		}
+		Task task = newTask(changeDTO);
+		task.setAction(TaskAction.ZOOMOUT);
+		task.setPrompt(targetTask.getPrompt());
+		task.setPromptEn(targetTask.getPromptEn());
+		task.setProperty(Constants.TASK_PROPERTY_FINAL_PROMPT, targetTask.getProperty(Constants.TASK_PROPERTY_FINAL_PROMPT));
+		task.setProperty(Constants.TASK_PROPERTY_PROGRESS_MESSAGE_ID, targetTask.getProperty(Constants.TASK_PROPERTY_MESSAGE_ID));
+		task.setProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID, targetTask.getProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID));
+		task.setDescription(description);
+		int messageFlags = targetTask.getPropertyGeneric(Constants.TASK_PROPERTY_FLAGS);
+		String messageId = targetTask.getPropertyGeneric(Constants.TASK_PROPERTY_MESSAGE_ID);
+		String messageHash = targetTask.getPropertyGeneric(Constants.TASK_PROPERTY_MESSAGE_HASH);
+		return this.taskService.submitZoomout(task, messageId, messageHash, 0, messageFlags,changeDTO.getRatio());
 	}
 
 	@ApiOperation(value = "提交Describe任务")

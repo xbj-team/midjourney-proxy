@@ -51,4 +51,5 @@ public interface DiscordInstance extends DiscordService {
 		return findRunningTask(condition).findFirst().orElse(null);
 	}
 
+    Message<Void> zoomout(String messageId, Integer index, String messageHash, int messageFlags,  String nonce,String ratio);
 }

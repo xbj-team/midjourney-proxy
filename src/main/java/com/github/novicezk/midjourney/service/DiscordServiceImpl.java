@@ -82,7 +82,16 @@ public class DiscordServiceImpl implements DiscordService {
 		paramsStr = new JSONObject(paramsStr).put("message_flags", messageFlags).toString();
 		return postJsonAndCheckStatus(paramsStr);
 	}
-
+	@Override
+	public Message<Void> zoomout(String messageId, Integer index, String messageHash, int messageFlags, String nonce,String ratio) {
+		String paramsStr = replaceInteractionParams(this.paramsMap.get("zoomout"), nonce)
+				.replace("$message_id", messageId)
+				.replace("$index", String.valueOf(index))
+				.replace("$message_hash", messageHash)
+				.replace("$ratio",ratio);
+		paramsStr = new JSONObject(paramsStr).put("message_flags", messageFlags).toString();
+		return postJsonAndCheckStatus(paramsStr);
+	}
 	@Override
 	public Message<Void> reroll(String messageId, String messageHash, int messageFlags, String nonce) {
 		String paramsStr = replaceInteractionParams(this.paramsMap.get("reroll"), nonce)

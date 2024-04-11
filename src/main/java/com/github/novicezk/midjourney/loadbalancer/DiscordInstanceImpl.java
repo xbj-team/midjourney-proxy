@@ -197,7 +197,10 @@ public class DiscordInstanceImpl implements DiscordInstance {
 	public Message<Void> variation(String messageId, int index, String messageHash, int messageFlags, String nonce) {
 		return this.service.variation(messageId, index, messageHash, messageFlags, nonce);
 	}
-
+	@Override
+	public Message<Void> zoomout(String messageId, Integer index, String messageHash, int messageFlags, String nonce,String ratio) {
+		return this.service.zoomout(messageId, index, messageHash, messageFlags, nonce,ratio);
+	}
 	@Override
 	public Message<Void> reroll(String messageId, String messageHash, int messageFlags, String nonce) {
 		return this.service.reroll(messageId, messageHash, messageFlags, nonce);

@@ -14,6 +14,8 @@ public enum TaskAction {
 	 * 选中其中的一张图，生成四张相似的.
 	 */
 	VARIATION,
+
+	ZOOMOUT,
 	/**
 	 * 重新执行.
 	 */

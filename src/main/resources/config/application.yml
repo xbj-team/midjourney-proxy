@@ -23,15 +23,15 @@ knife4j:
           - com.github.novicezk.midjourney.controller
 mj:
   accounts[0]:
-    userToken: MTIyMDI0OTg5MjgxMTk2NDQzNw.GIXRMZ.7HkjmSWzN3uqWwnRKzAgpbMGhVyvAdoXJ2wvEM
+    userToken: MTIyMDI0OTg5MjgxMTk2NDQzNw.GGyr_6.ZdV-D8BFCyIfHKIIqEGtdq_TcQ3oxSlExMtRUE
     guild-id: 1220251207642255390
     channel-id: 1220251207642255393
   accounts[1]:
-    userToken: MTIyMTMzMDE0NzY2ODY1NjE1MQ.GNWTVh.laqtAQeXKZKkPBrrhTIU1i8ooG78GxvalrLuUo
+    userToken: MTIyMTMzMDE0NzY2ODY1NjE1MQ.Gdvzd9._KhBEv87LNp6rkYnRXEdhZIijWj0N_sgKQC1G4
     guild-id: 1221334710953840641
     channel-id: 1221334711461478462
   accounts[2]:
-    userToken: MTE4MTg2NTkxNTU1ODY1ODA5MQ.GNkO4w.2DhX1-4PwRe2umgIBImU1CKKElU-j0-6SB9DiA
+    userToken: MTE4MTg2NTkxNTU1ODY1ODA5MQ.GJhdAf.-02vkPz-apmh9Fmx8XB-Xubs3dtAifhrVd6HIE
     guild-id: 1181866555231965285
     channel-id: 1181866555231965288
   discord:
