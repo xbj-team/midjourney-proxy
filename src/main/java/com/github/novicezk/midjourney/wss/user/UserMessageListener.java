@@ -3,6 +3,7 @@ package com.github.novicezk.midjourney.wss.user;
 
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.thread.ThreadUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.github.novicezk.midjourney.Constants;
 import com.github.novicezk.midjourney.enums.MessageType;
 import com.github.novicezk.midjourney.loadbalancer.DiscordInstance;
@@ -26,6 +27,7 @@ public class UserMessageListener {
 	}
 
 	public void onMessage(DataObject raw) {
+		log.info("raw:"+JSONObject.toJSONString(raw));
 		MessageType messageType = MessageType.of(raw.getString("t"));
 		if (messageType == null || MessageType.DELETE == messageType) {
 			return;

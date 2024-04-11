@@ -3,6 +3,7 @@ package com.github.novicezk.midjourney.wss.user;
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.RandomUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.github.novicezk.midjourney.domain.DiscordAccount;
 import eu.bitwalker.useragentutils.UserAgent;
 import lombok.Setter;
@@ -95,6 +96,7 @@ public class SpringWebSocketHandler implements WebSocketHandler {
 			return;
 		}
 		String json = new String(decompressed, StandardCharsets.UTF_8);
+		JSONObject.toJSONString("handleMessage:{}"+json);
 		DataObject data = DataObject.fromJson(json);
 		int opCode = data.getInt("op");
 		switch (opCode) {
