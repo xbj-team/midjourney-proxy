@@ -28,6 +28,7 @@ public class DiscordAccount extends DomainObject {
 	private int coreSize = 3;
 	@ApiModelProperty("等待队列长度")
 	private int queueSize = 10;
+
 	@ApiModelProperty("任务超时时间(分钟)")
 	private int timeoutMinutes = 5;
 
