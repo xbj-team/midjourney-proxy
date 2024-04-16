@@ -4,17 +4,10 @@ package com.github.novicezk.midjourney.loadbalancer;
 import cn.hutool.core.text.CharSequenceUtil;
 import com.github.novicezk.midjourney.loadbalancer.rule.IRule;
 import com.github.novicezk.midjourney.support.Task;
-import com.github.novicezk.midjourney.support.TaskCondition;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Stream;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -22,6 +15,8 @@ public class DiscordLoadBalancer {
 	private final IRule rule;
 
 	private final List<DiscordInstance> instances = Collections.synchronizedList(new ArrayList<>());
+
+	private final HashMap<String,List<DiscordInstance>> instancesByGroup =new HashMap<>();
 
 	public List<DiscordInstance> getAllInstances() {
 		return this.instances;
@@ -58,6 +53,30 @@ public class DiscordLoadBalancer {
 			tasks.addAll(instance.getQueueTasks());
 		}
 		return tasks;
+	}
+
+	//按分组的形式来使用discord账号
+	public HashMap<String,List<DiscordInstance>> getAllInstancesByGroup() {
+		return this.instancesByGroup;
+	}
+
+	public DiscordInstance chooseInstance(String groupId) {
+		return this.rule.choose(getAliveInstances());
+	}
+
+
+	public DiscordInstance getDiscordInstanceByGroupId(String instanceId) {
+		return  this.getDiscordInstanceByGroupId(instanceId,"fast");
+	}
+
+	public DiscordInstance getDiscordInstanceByGroupId(String instanceId, String groupId) {
+		if (CharSequenceUtil.isBlank(instanceId)||
+				CharSequenceUtil.isBlank(groupId)) {
+			return null;
+		}
+		return this.instancesByGroup.get(groupId).stream()
+				.filter(instance -> CharSequenceUtil.equals(instanceId, instance.getInstanceId()))
+				.findFirst().orElse(null);
 	}
 
 }

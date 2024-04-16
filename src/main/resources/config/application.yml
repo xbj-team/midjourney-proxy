@@ -22,18 +22,28 @@ knife4j:
         api-rule-resources:
           - com.github.novicezk.midjourney.controller
 mj:
+#  accounts[0]:
+#    userToken: MTIyODk2MTU2NTYzODY2MDExNg.G4bRhA.EZkEGzYm_-Ff3z7onrK8vCnjnIh8Cmt68aAwb8
+#    guild-id: 1228962965617901568
+#    channel-id: 1228962965617901571
   accounts[0]:
-    userToken: MTIyMDI0OTg5MjgxMTk2NDQzNw.GASP9Q.H-v48z5pcckecubm9glr1TCtM5mFHWfp6ZvwvE
-    guild-id: 1220251207642255390
-    channel-id: 1220251207642255393
-  accounts[1]:
-    userToken: MTIyMTMzMDE0NzY2ODY1NjE1MQ.Gcij8q.s5yTd6BGY9HTBGXeoIjHeasWsol_hc3J-tzUso
-    guild-id: 1221334710953840641
-    channel-id: 1221334711461478462
-  accounts[2]:
-    userToken: MTE4MTg2NTkxNTU1ODY1ODA5MQ.GUuTCz.cS3owOK4-LJppuOpLI6bEgN8kUwWVtOQ_JP64c
-    guild-id: 1181866555231965285
-    channel-id: 1181866555231965288
+    userToken: MTIyODkxOTIxMjc1NjQzNTA1NA.G--myC.ZQM07opyzxhlezzLATgb3KhAtjOohFOw-QElI0
+    guild-id: 1228952985460015155
+    channel-id: 1228952986097811499
+    coreSize: 10
+    queueSize: 20
+#  accounts[0]:
+#    userToken: MTIyMDI0OTg5MjgxMTk2NDQzNw.G_4Bmd.TDpsOeLVBNPYRzJqpz5H_LpBmvECCg8nCDmKec
+#    guild-id: 1220251207642255390
+#    channel-id: 1220251207642255393
+#  accounts[1]:
+#    userToken: MTIyMTMzMDE0NzY2ODY1NjE1MQ.GhHgoB.Vm7wT1Jqbo_IP9zLkpcwmBIYXhLDxIMaXQL-Vw
+#    guild-id: 1221334710953840641
+#    channel-id: 1221334711461478462
+#  accounts[2]:
+#    userToken: MTE4MTg2NTkxNTU1ODY1ODA5MQ.GSQ0qo.RdH353bUZnrpgDfXxsS2jtdhAYtEa5wlFdxJhk
+#    guild-id: 1181866555231965285
+#    channel-id: 1181866555231965288
   discord:
     guild-id: 1220251207642255390
     user-token: MTIyMDI0OTg5MjgxMTk2NDQzNw.GIXRMZ.7HkjmSWzN3uqWwnRKzAgpbMGhVyvAdoXJ2wvEM

@@ -12,16 +12,11 @@ import com.github.novicezk.midjourney.util.MimeTypeUtils;
 import eu.maxschuster.dataurl.DataUrl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -31,8 +26,8 @@ public class TaskServiceImpl implements TaskService {
 	private final DiscordLoadBalancer discordLoadBalancer;
 
 	@Override
-	public SubmitResultVO submitImagine(Task task, List<DataUrl> dataUrls) {
-		DiscordInstance instance = this.discordLoadBalancer.chooseInstance();
+	public SubmitResultVO submitImagine(Task task,boolean isAi, List<DataUrl> dataUrls) {
+		DiscordInstance instance = this.discordLoadBalancer.chooseInstance(isAi?"ai":"fast");
 		if (instance == null) {
 			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "无可用的账号实例");
 		}
@@ -65,7 +60,7 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public SubmitResultVO submitUpscale(Task task, String targetMessageId, String targetMessageHash, int index, int messageFlags) {
 		String instanceId = task.getPropertyGeneric(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID);
-		DiscordInstance discordInstance = this.discordLoadBalancer.getDiscordInstance(instanceId);
+		DiscordInstance discordInstance = this.discordLoadBalancer.getDiscordInstanceByGroupId(instanceId);
 		if (discordInstance == null || !discordInstance.isAlive()) {
 			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "账号不可用: " + instanceId);
 		}
@@ -75,7 +70,7 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public SubmitResultVO submitVariation(Task task, String targetMessageId, String targetMessageHash, int index, int messageFlags) {
 		String instanceId = task.getPropertyGeneric(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID);
-		DiscordInstance discordInstance = this.discordLoadBalancer.getDiscordInstance(instanceId);
+		DiscordInstance discordInstance = this.discordLoadBalancer.getDiscordInstanceByGroupId(instanceId);
 		if (discordInstance == null || !discordInstance.isAlive()) {
 			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "账号不可用: " + instanceId);
 		}
@@ -85,7 +80,7 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public SubmitResultVO submitReroll(Task task, String targetMessageId, String targetMessageHash, int messageFlags) {
 		String instanceId = task.getPropertyGeneric(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID);
-		DiscordInstance discordInstance = this.discordLoadBalancer.getDiscordInstance(instanceId);
+		DiscordInstance discordInstance = this.discordLoadBalancer.getDiscordInstanceByGroupId(instanceId);
 		if (discordInstance == null || !discordInstance.isAlive()) {
 			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "账号不可用: " + instanceId);
 		}
@@ -94,7 +89,7 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public SubmitResultVO submitDescribe(Task task, DataUrl dataUrl) {
-		DiscordInstance discordInstance = this.discordLoadBalancer.chooseInstance();
+		DiscordInstance discordInstance = this.discordLoadBalancer.chooseInstance("ai");
 		if (discordInstance == null) {
 			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "无可用的账号实例");
 		}
@@ -112,7 +107,7 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public SubmitResultVO submitBlend(Task task, List<DataUrl> dataUrls, BlendDimensions dimensions) {
-		DiscordInstance discordInstance = this.discordLoadBalancer.chooseInstance();
+		DiscordInstance discordInstance = this.discordLoadBalancer.chooseInstance("ai");
 		if (discordInstance == null) {
 			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "无可用的账号实例");
 		}
@@ -159,7 +154,7 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public SubmitResultVO submitZoomout(Task task, String messageId, String messageHash, Integer index, int messageFlags,String ratio) {
 		String instanceId = task.getPropertyGeneric(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID);
-		DiscordInstance discordInstance = this.discordLoadBalancer.getDiscordInstance(instanceId);
+		DiscordInstance discordInstance = this.discordLoadBalancer.getDiscordInstanceByGroupId(instanceId);
 		if (discordInstance == null || !discordInstance.isAlive()) {
 			return SubmitResultVO.fail(ReturnCode.NOT_FOUND, "账号不可用: " + instanceId);
 		}

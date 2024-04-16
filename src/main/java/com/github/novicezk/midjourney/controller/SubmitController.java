@@ -124,7 +124,7 @@ public class SubmitController {
 		}
 		task.setPromptEn(promptEn);
 		task.setDescription("/imagine " + prompt);
-		return this.taskService.submitImagine(task, dataUrls);
+		return this.taskService.submitImagine(task, imagineDTO.isAi(), dataUrls);
 	}
 
 	@ApiOperation(value = "绘图变化-simple")

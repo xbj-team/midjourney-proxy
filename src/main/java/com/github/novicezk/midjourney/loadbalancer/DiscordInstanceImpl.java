@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -36,11 +37,11 @@ public class DiscordInstanceImpl implements DiscordInstance {
 	private final DiscordService service;
 	private final TaskStoreService taskStoreService;
 	private final NotifyService notifyService;
-
 	private final ThreadPoolTaskExecutor taskExecutor;
 	private final List<Task> runningTasks;
 	private final List<Task> queueTasks;
 	private final Map<String, Future<?>> taskFutureMap = Collections.synchronizedMap(new HashMap<>());
+	private static HashMap<String, LocalDateTime> lastVisitMap=new HashMap<>();
 
 	public DiscordInstanceImpl(DiscordAccount account, WebSocketStarter socketStarter, RestTemplate restTemplate,
 			TaskStoreService taskStoreService, NotifyService notifyService, Map<String, String> paramsMap) {
@@ -138,6 +139,23 @@ public class DiscordInstanceImpl implements DiscordInstance {
 	}
 
 	private void executeTask(Task task, Callable<Message<Void>> discordSubmit) {
+		//防止封号，添加的5秒访问一次的逻辑
+		String discordInstanceId = (String)task.getProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID);
+		if(!lastVisitMap.containsKey(discordInstanceId)){
+			lastVisitMap.put(discordInstanceId,LocalDateTime.now());
+		}else{
+			LocalDateTime lastLocalDateTime = lastVisitMap.get(discordInstanceId);
+			while (LocalDateTime.now().compareTo(lastLocalDateTime.plusSeconds(5))<0){
+                try {
+					log.info("zyj:账号"+discordInstanceId+"距离上次访问discord不足5秒,将稍后再发起访问。");
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+			lastVisitMap.put(discordInstanceId,LocalDateTime.now());
+		}
+
 		this.runningTasks.add(task);
 		try {
 			Message<Void> result = discordSubmit.call();
@@ -197,10 +215,12 @@ public class DiscordInstanceImpl implements DiscordInstance {
 	public Message<Void> variation(String messageId, int index, String messageHash, int messageFlags, String nonce) {
 		return this.service.variation(messageId, index, messageHash, messageFlags, nonce);
 	}
+
 	@Override
 	public Message<Void> zoomout(String messageId, Integer index, String messageHash, int messageFlags, String nonce,String ratio) {
 		return this.service.zoomout(messageId, index, messageHash, messageFlags, nonce,ratio);
 	}
+
 	@Override
 	public Message<Void> reroll(String messageId, String messageHash, int messageFlags, String nonce) {
 		return this.service.reroll(messageId, messageHash, messageFlags, nonce);

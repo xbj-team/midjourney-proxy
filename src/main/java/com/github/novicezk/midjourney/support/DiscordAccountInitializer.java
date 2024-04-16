@@ -2,6 +2,7 @@ package com.github.novicezk.midjourney.support;
 
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.exceptions.ValidateException;
 import cn.hutool.core.text.CharSequenceUtil;
 import com.github.novicezk.midjourney.ProxyProperties;
@@ -18,6 +19,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -64,6 +67,24 @@ public class DiscordAccountInitializer implements ApplicationRunner {
 				log.error("Account({}) init fail, disabled: {}", account.getDisplay(), e.getMessage());
 				account.setEnable(false);
 			}
+		}
+		//给discord账号分组
+		if(CollectionUtil.isNotEmpty(instances)){
+			HashMap<String, List<DiscordInstance>> allInstancesByGroup = this.discordLoadBalancer.getAllInstancesByGroup();
+			if(instances.size()==1){
+				allInstancesByGroup.put("ai",instances);
+				allInstancesByGroup.put("fast",instances);
+			}else{
+				allInstancesByGroup.put("ai",new ArrayList<>());
+				allInstancesByGroup.put("fast",new ArrayList<>());
+			}
+			if(instances.size()>=2){
+				for (int i = 0; i < instances.size(); i++) {
+					allInstancesByGroup.get(i%2==0?"fast":"ai").add(instances.get(i));
+				}
+			}
+			log.info("zyj:ai账号：{}",allInstancesByGroup.get("ai").stream().map(p->p.getInstanceId()).collect(Collectors.joining(",")));
+			log.info("zyj:fast账号：{}",allInstancesByGroup.get("fast").stream().map(p->p.getInstanceId()).collect(Collectors.joining(",")));
 		}
 		Set<String> enableInstanceIds = instances.stream().filter(DiscordInstance::isAlive).map(DiscordInstance::getInstanceId).collect(Collectors.toSet());
 		log.info("当前可用账号数 [{}] - {}", enableInstanceIds.size(), String.join(", ", enableInstanceIds));

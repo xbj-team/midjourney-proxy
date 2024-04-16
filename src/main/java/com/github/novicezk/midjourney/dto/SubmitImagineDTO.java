@@ -23,4 +23,7 @@ public class SubmitImagineDTO extends BaseSubmitDTO {
 	@Deprecated(since = "3.0", forRemoval = true)
 	private String base64;
 
+
+	@ApiModelProperty
+	private boolean isAi;
 }
