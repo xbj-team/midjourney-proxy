@@ -76,6 +76,8 @@ public class ProxyProperties {
 		 * 用户Token.
 		 */
 		private String userToken;
+
+		private String tag;
 		/**
 		 * 用户UserAgent.
 		 */

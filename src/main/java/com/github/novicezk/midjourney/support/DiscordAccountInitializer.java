@@ -71,18 +71,18 @@ public class DiscordAccountInitializer implements ApplicationRunner {
 		//给discord账号分组
 		if(CollectionUtil.isNotEmpty(instances)){
 			HashMap<String, List<DiscordInstance>> allInstancesByGroup = this.discordLoadBalancer.getAllInstancesByGroup();
-			if(instances.size()==1){
-				allInstancesByGroup.put("ai",instances);
-				allInstancesByGroup.put("fast",instances);
-			}else{
-				allInstancesByGroup.put("ai",new ArrayList<>());
-				allInstancesByGroup.put("fast",new ArrayList<>());
-			}
-			if(instances.size()>=2){
-				for (int i = 0; i < instances.size(); i++) {
-					allInstancesByGroup.get(i%2==0?"fast":"ai").add(instances.get(i));
+			allInstancesByGroup.put("ai",new ArrayList<>());
+			allInstancesByGroup.put("fast",new ArrayList<>());
+			for (int i = 0; i < instances.size(); i++) {
+				String tag = instances.get(i).account().getTag();
+				if(Strings.isNotBlank(tag) &&tag.contains("ai")){
+					allInstancesByGroup.get("ai").add(instances.get(i));
+				}
+				if(Strings.isNotBlank(tag) &&tag.contains("fast")) {
+					allInstancesByGroup.get("fast").add(instances.get(i));
 				}
 			}
+
 			log.info("zyj:ai账号：{}",allInstancesByGroup.get("ai").stream().map(p->p.getInstanceId()).collect(Collectors.joining(",")));
 			log.info("zyj:fast账号：{}",allInstancesByGroup.get("fast").stream().map(p->p.getInstanceId()).collect(Collectors.joining(",")));
 		}

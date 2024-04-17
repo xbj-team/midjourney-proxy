@@ -20,7 +20,8 @@ public class DiscordAccount extends DomainObject {
 	private String userToken;
 	@ApiModelProperty("用户UserAgent")
 	private String userAgent = Constants.DEFAULT_DISCORD_USER_AGENT;
-
+	@ApiModelProperty("标签")
+	private String tag;
 	@ApiModelProperty("是否可用")
 	private boolean enable = true;
 

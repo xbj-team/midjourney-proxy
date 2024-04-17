@@ -27,11 +27,12 @@ mj:
 #    guild-id: 1228962965617901568
 #    channel-id: 1228962965617901571
   accounts[0]:
-    userToken: MTIyODkxOTIxMjc1NjQzNTA1NA.G--myC.ZQM07opyzxhlezzLATgb3KhAtjOohFOw-QElI0
+    userToken: MTIyODkxOTIxMjc1NjQzNTA1NA.Gn4Lpy.2ZiOjveGHHMPtDYfWoJuC6Xf4_QUTbnN46Vfyk
     guild-id: 1228952985460015155
     channel-id: 1228952986097811499
     coreSize: 10
     queueSize: 20
+    tag: ai,fast
 #  accounts[0]:
 #    userToken: MTIyMDI0OTg5MjgxMTk2NDQzNw.G_4Bmd.TDpsOeLVBNPYRzJqpz5H_LpBmvECCg8nCDmKec
 #    guild-id: 1220251207642255390
@@ -44,10 +45,10 @@ mj:
 #    userToken: MTE4MTg2NTkxNTU1ODY1ODA5MQ.GSQ0qo.RdH353bUZnrpgDfXxsS2jtdhAYtEa5wlFdxJhk
 #    guild-id: 1181866555231965285
 #    channel-id: 1181866555231965288
-  discord:
-    guild-id: 1220251207642255390
-    user-token: MTIyMDI0OTg5MjgxMTk2NDQzNw.GIXRMZ.7HkjmSWzN3uqWwnRKzAgpbMGhVyvAdoXJ2wvEM
-    channel-id: 1220251207642255393
+#  discord:
+#    guild-id: 1220251207642255390
+#    user-token: MTIyMDI0OTg5MjgxMTk2NDQzNw.GIXRMZ.7HkjmSWzN3uqWwnRKzAgpbMGhVyvAdoXJ2wvEM
+#    channel-id: 1220251207642255393
 
 
   notify-hook: http://aigc.xcwhai.com/xbj/midjounery/callback
