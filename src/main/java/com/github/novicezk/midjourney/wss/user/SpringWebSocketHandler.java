@@ -152,12 +152,16 @@ public class SpringWebSocketHandler implements WebSocketHandler {
 		this.interval = data.getObject("d").getLong("heartbeat_interval");
 		this.heartbeatAck = true;
 		this.heartbeatInterval = this.heartExecutor.scheduleAtFixedRate(() -> {
+			log.info("heartbeat111...");
 			if (this.heartbeatAck) {
+				log.info("heartbeat222...");
 				this.heartbeatAck = false;
 				sendMessage(session, WebSocketCode.HEARTBEAT, this.sequence);
 			} else {
+				log.info("heartbeat333...");
 				onFailure(CLOSE_CODE_RECONNECT, "heartbeat has not ack interval");
 			}
+			log.info("heartbeat444...");
 		}, (long) Math.floor(RandomUtil.randomDouble(0, 1) * this.interval), this.interval, TimeUnit.MILLISECONDS);
 	}
 

@@ -7,6 +7,7 @@ import cn.hutool.core.thread.ThreadUtil;
 import com.github.novicezk.midjourney.ReturnCode;
 import com.github.novicezk.midjourney.domain.DiscordAccount;
 import com.github.novicezk.midjourney.util.AsyncLockUtils;
+import com.github.novicezk.midjourney.util.DingTalkMessage;
 import com.github.novicezk.midjourney.wss.WebSocketStarter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.websocket.Constants;
@@ -17,6 +18,7 @@ import org.springframework.web.socket.WebSocketHttpHeaders;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.net.URI;
 import java.time.Duration;
@@ -36,6 +38,9 @@ public class SpringUserWebSocketStarter implements WebSocketStarter {
 
 	private WebSocketSession webSocketSession = null;
 	private ResumeData resumeData = null;
+
+	@Resource
+	private DingTalkMessage dingTalkMessage;
 
 	public SpringUserWebSocketStarter(String wssServer, String resumeWss, DiscordAccount account, UserMessageListener userMessageListener) {
 		this.wssServer = wssServer;
@@ -102,7 +107,13 @@ public class SpringUserWebSocketStarter implements WebSocketStarter {
 		}
 		this.running = false;
 		if (code >= 4000) {
-			log.warn("[wss-{}] Can't reconnect! Account disabled. Closed by {}({}).", this.account.getDisplay(), code, reason);
+			try {
+				String format = String.format("[wss-{}] Can't reconnect! Account disabled. Closed by {}({}).", this.account.getDisplay(), code, reason);
+				log.warn(format);
+				dingTalkMessage.sendTextMessage(format);
+			}catch (Exception exception){
+				log.warn("format:{}",exception);
+			}
 			disableAccount();
 		} else if (code == 2001) {
 			log.warn("[wss-{}] Closed by {}({}). Try reconnect...", this.account.getDisplay(), code, reason);
