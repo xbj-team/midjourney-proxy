@@ -22,18 +22,21 @@ knife4j:
         api-rule-resources:
           - com.github.novicezk.midjourney.controller
 mj:
-#  accounts[0]:
-#    userToken: MTIyODk2MTU2NTYzODY2MDExNg.G4bRhA.EZkEGzYm_-Ff3z7onrK8vCnjnIh8Cmt68aAwb8
-#    guild-id: 1228962965617901568
-#    channel-id: 1228962965617901571
   accounts[0]:
-    userToken: MTIyODkxOTIxMjc1NjQzNTA1NA.Gn4Lpy.2ZiOjveGHHMPtDYfWoJuC6Xf4_QUTbnN46Vfyk
-    guild-id: 1228952985460015155
-    channel-id: 1228952986097811499
+    userToken: MTIyODkxOTIxMjc1NjQzNTA1NA.GszHoi.BP0ZWXe_B6HCalrmqb4zUDao4f3SiEKhRu41bs111
+    guild-id: 1228962965617901568111
+    channel-id: 1228962965617901571111
     coreSize: 10
     queueSize: 20
-    tag: ai,fast
-#  accounts[0]:
+    tag: ai
+  accounts[1]:
+    userToken: MTIyODkxOTIxMjc1NjQzNTA1NA.GszHoi.BP0ZWXe_B6HCalrmqb4zUDao4f3SiEKhRu41bs111
+    guild-id: 1228952985460015155111
+    channel-id: 1228952986097811499111
+    coreSize: 10
+    queueSize: 20
+    tag: fast
+#  accounts[1]:
 #    userToken: MTIyMDI0OTg5MjgxMTk2NDQzNw.G_4Bmd.TDpsOeLVBNPYRzJqpz5H_LpBmvECCg8nCDmKec
 #    guild-id: 1220251207642255390
 #    channel-id: 1220251207642255393
