@@ -2,6 +2,7 @@ package com.github.novicezk.midjourney.controller;
 
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.RandomUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.github.novicezk.midjourney.Constants;
 import com.github.novicezk.midjourney.ProxyProperties;
 import com.github.novicezk.midjourney.ReturnCode;
@@ -77,8 +78,34 @@ public class SubmitController {
 	@GetMapping("/getImage")
 	public static byte[] getImage(@ApiParam(value = "图片地址")  String img) {
 		try {
+			log.info("getImage:{}",img);
 			// 创建一个URL对象
 			URL url = new URL(img);
+			// 使用ImageIO读取URL指向的图片
+			InputStream inputStream = url.openStream();
+			BufferedImage image = ImageIO.read(inputStream);
+
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			ImageIO.write(image, "png", outputStream);
+
+			return outputStream.toByteArray();
+		} catch (Exception e) {
+			log.info("getImage:{}",e);
+			// 如果发生IO异常，返回null
+			return null;
+		}
+	}
+
+
+	@ApiOperation(value = "个人信息")
+	@PostMapping("/getImage2")
+	public static byte[] getImage(@RequestBody  ImageRequestDTO imageRequestDTO) {
+		try {
+			// 创建一个URL对象
+			log.info("getImage2:{}", JSONObject.toJSONString(imageRequestDTO));
+			//https://cdn.discordapp.com/attachments/1228962965617901571/1232594012125528066/yijiqicai__93470d45-0bcf-4d11-813e-976ef27a1999.png?ex=662a0620&is=6628b4a0&hm=7a299a8054d8ccda096119cd00da7fe763f559c7652599e9fa0ef88d1bf56954&
+			//https://cdn.discordapp.com/attachments/1228962965617901571/1232594012125528066/yijiqicai__93470d45-0bcf-4d11-813e-976ef27a1999.png?ex=662a0620&is=6628b4a0&hm=7a299a8054d8ccda096119cd00da7fe763f559c7652599e9fa0ef88d1bf56954&
+			URL url = new URL(imageRequestDTO.getImg());
 			// 使用ImageIO读取URL指向的图片
 			InputStream inputStream = url.openStream();
 			BufferedImage image = ImageIO.read(inputStream);
