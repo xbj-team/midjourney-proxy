@@ -4,6 +4,7 @@ package com.github.novicezk.midjourney.loadbalancer;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
+import com.alibaba.fastjson.JSON;
 import com.github.novicezk.midjourney.Constants;
 import com.github.novicezk.midjourney.ReturnCode;
 import com.github.novicezk.midjourney.domain.DiscordAccount;
@@ -41,10 +42,7 @@ public class DiscordInstanceImpl implements DiscordInstance {
 	private final List<Task> runningTasks;
 	private final List<Task> queueTasks;
 	private final Map<String, Future<?>> taskFutureMap = Collections.synchronizedMap(new HashMap<>());
-//	private static HashMap<String, LocalDateTime> lastVisitMap=new HashMap<>();
 
-	@Resource
-	private  RedisTemplate redisTemplate;
 
 	public DiscordInstanceImpl(DiscordAccount account, WebSocketStarter socketStarter, RestTemplate restTemplate,
 			TaskStoreService taskStoreService, NotifyService notifyService, Map<String, String> paramsMap) {
@@ -177,18 +175,30 @@ public class DiscordInstanceImpl implements DiscordInstance {
 	}
 
 	private void accountProtected(Task task) {
-		String discordInstanceId = (String) task.getProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID);
-		while (!redisTemplate.opsForValue().setIfAbsent(discordInstanceId, null)) {
-			try {
-				log.info("zyj:禁止访问,账号" + discordInstanceId + "将稍后再试。");
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
+		try {
+			log.info("zyj:aaa，bbb");
+			log.info("zyj:申请访问,任务" + task.getId() + "将访问mj。");
+			String discordInstanceId = (String) task.getProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID);
+			String key = "lock:" + discordInstanceId;
+			log.info("redis:" + key);
+			boolean result = false;
+			do {
+				log.info("redis 111:{}", 111);
+				long seconds = RandomUtil.randomInt(3, 5);
+				log.info("redis seconds:{}", seconds);
+				Boolean b = taskStoreService.lock(key, null, seconds, TimeUnit.SECONDS);
+				log.info("redis result:{}", b);
+				result = b == null ? false : b;
+				if (!result) {
+					log.info("zyj:禁止访问,账号" + discordInstanceId + "将稍后再试。");
+					Thread.sleep(1000);
+				}
+			} while (!result);
+			log.info("zyj:发起访问,账号" + discordInstanceId + "发起访问。");
+		} catch (InterruptedException e) {
+			log.info("zyj:exception,{}",e);
+			throw new RuntimeException(e);
 		}
-		int seconds = RandomUtil.randomInt(3, 5);
-		redisTemplate.expire(discordInstanceId,seconds,TimeUnit.SECONDS );
-		log.info("zyj:发起访问,账号" + discordInstanceId + "发起访问。");
 	}
 
 	private void asyncSaveAndNotify(Task task) {

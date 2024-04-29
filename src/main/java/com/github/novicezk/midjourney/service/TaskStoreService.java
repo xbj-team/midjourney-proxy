@@ -5,6 +5,7 @@ import com.github.novicezk.midjourney.support.Task;
 import com.github.novicezk.midjourney.support.TaskCondition;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public interface TaskStoreService {
 
@@ -19,5 +20,7 @@ public interface TaskStoreService {
 	List<Task> list(TaskCondition condition);
 
 	Task findOne(TaskCondition condition);
+
+	Boolean lock(String key, Task value, Long time, TimeUnit timeUnit);
 
 }

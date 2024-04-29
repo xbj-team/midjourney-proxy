@@ -10,6 +10,7 @@ import com.github.novicezk.midjourney.support.TaskCondition;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 public class InMemoryTaskStoreServiceImpl implements TaskStoreService {
@@ -47,6 +48,11 @@ public class InMemoryTaskStoreServiceImpl implements TaskStoreService {
 	@Override
 	public Task findOne(TaskCondition condition) {
 		return StreamUtil.of(this.taskMap.iterator()).filter(condition).findFirst().orElse(null);
+	}
+
+	@Override
+	public Boolean lock(String key, Task value, Long time, TimeUnit timeUnit) {
+		return null;
 	}
 
 }

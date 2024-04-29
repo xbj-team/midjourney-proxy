@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class RedisTaskStoreServiceImpl implements TaskStoreService {
@@ -67,6 +68,12 @@ public class RedisTaskStoreServiceImpl implements TaskStoreService {
 		return list().stream().filter(condition).findFirst().orElse(null);
 	}
 
+	@Override
+	public Boolean lock(String key, Task value, Long time, TimeUnit timeUnit) {
+
+			return this.redisTemplate.opsForValue().setIfAbsent(key,value,time,timeUnit);
+
+	}
 	private String getRedisKey(String id) {
 		return KEY_PREFIX + id;
 	}

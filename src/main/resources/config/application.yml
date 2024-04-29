@@ -23,19 +23,26 @@ knife4j:
           - com.github.novicezk.midjourney.controller
 mj:
   accounts[0]:
-    userToken: MTIyODkxOTIxMjc1NjQzNTA1NA.GszHoi.BP0ZWXe_B6HCalrmqb4zUDao4f3SiEKhRu41bs111
-    guild-id: 1228962965617901568111
-    channel-id: 1228962965617901571111
+    userToken: MTIzNDA3NzcwNTYzNzU5NzE4NA.GANPCt.VkhNaoj2hdZQt4EYDz32fkuB2nLOGFj2TKxGmk
+    guild-id: 1234079108527558726
+    channel-id: 1234079108527558729
     coreSize: 10
     queueSize: 20
-    tag: ai
-  accounts[1]:
-    userToken: MTIyODkxOTIxMjc1NjQzNTA1NA.GszHoi.BP0ZWXe_B6HCalrmqb4zUDao4f3SiEKhRu41bs111
-    guild-id: 1228952985460015155111
-    channel-id: 1228952986097811499111
-    coreSize: 10
-    queueSize: 20
-    tag: fast
+    tag: ai,fast
+#  accounts[0]:
+#    userToken: MTIyODkxOTIxMjc1NjQzNTA1NA.GszHoi.BP0ZWXe_B6HCalrmqb4zUDao4f3SiEKhRu41bs111
+#    guild-id: 1228962965617901568111
+#    channel-id: 1228962965617901571111
+#    coreSize: 10
+#    queueSize: 20
+#    tag: ai
+#  accounts[1]:
+#    userToken: MTIyODkxOTIxMjc1NjQzNTA1NA.GszHoi.BP0ZWXe_B6HCalrmqb4zUDao4f3SiEKhRu41bs111
+#    guild-id: 1228952985460015155111
+#    channel-id: 1228952986097811499111
+#    coreSize: 10
+#    queueSize: 20
+#    tag: fast
 #  accounts[1]:
 #    userToken: MTIyMDI0OTg5MjgxMTk2NDQzNw.G_4Bmd.TDpsOeLVBNPYRzJqpz5H_LpBmvECCg8nCDmKec
 #    guild-id: 1220251207642255390
