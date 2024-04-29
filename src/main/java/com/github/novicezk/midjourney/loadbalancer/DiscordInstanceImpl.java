@@ -2,6 +2,8 @@ package com.github.novicezk.midjourney.loadbalancer;
 
 
 import cn.hutool.core.thread.ThreadUtil;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.RandomUtil;
 import com.github.novicezk.midjourney.Constants;
 import com.github.novicezk.midjourney.ReturnCode;
 import com.github.novicezk.midjourney.domain.DiscordAccount;
@@ -17,18 +19,16 @@ import com.github.novicezk.midjourney.support.Task;
 import com.github.novicezk.midjourney.wss.WebSocketStarter;
 import eu.maxschuster.dataurl.DataUrl;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.Future;
-import java.util.concurrent.RejectedExecutionException;
+import java.util.*;
+import java.util.concurrent.*;
 
 @Slf4j
 public class DiscordInstanceImpl implements DiscordInstance {
@@ -41,7 +41,10 @@ public class DiscordInstanceImpl implements DiscordInstance {
 	private final List<Task> runningTasks;
 	private final List<Task> queueTasks;
 	private final Map<String, Future<?>> taskFutureMap = Collections.synchronizedMap(new HashMap<>());
-	private static HashMap<String, LocalDateTime> lastVisitMap=new HashMap<>();
+//	private static HashMap<String, LocalDateTime> lastVisitMap=new HashMap<>();
+
+	@Resource
+	private  RedisTemplate redisTemplate;
 
 	public DiscordInstanceImpl(DiscordAccount account, WebSocketStarter socketStarter, RestTemplate restTemplate,
 			TaskStoreService taskStoreService, NotifyService notifyService, Map<String, String> paramsMap) {
@@ -140,21 +143,7 @@ public class DiscordInstanceImpl implements DiscordInstance {
 
 	private void executeTask(Task task, Callable<Message<Void>> discordSubmit) {
 		//防止封号，添加的5秒访问一次的逻辑
-		String discordInstanceId = (String)task.getProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID);
-		if(!lastVisitMap.containsKey(discordInstanceId)){
-			lastVisitMap.put(discordInstanceId,LocalDateTime.now());
-		}else{
-			LocalDateTime lastLocalDateTime = lastVisitMap.get(discordInstanceId);
-			while (LocalDateTime.now().compareTo(lastLocalDateTime.plusSeconds(5))<0){
-                try {
-					log.info("zyj:账号"+discordInstanceId+"距离上次访问discord不足5秒,将稍后再发起访问。");
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-			lastVisitMap.put(discordInstanceId,LocalDateTime.now());
-		}
+		accountProtected(task);
 
 		this.runningTasks.add(task);
 		try {
@@ -185,6 +174,21 @@ public class DiscordInstanceImpl implements DiscordInstance {
 			this.queueTasks.remove(task);
 			this.taskFutureMap.remove(task.getId());
 		}
+	}
+
+	private void accountProtected(Task task) {
+		String discordInstanceId = (String) task.getProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID);
+		while (!redisTemplate.opsForValue().setIfAbsent(discordInstanceId, null)) {
+			try {
+				log.info("zyj:禁止访问,账号" + discordInstanceId + "将稍后再试。");
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		int seconds = RandomUtil.randomInt(3, 5);
+		redisTemplate.expire(discordInstanceId,seconds,TimeUnit.SECONDS );
+		log.info("zyj:发起访问,账号" + discordInstanceId + "发起访问。");
 	}
 
 	private void asyncSaveAndNotify(Task task) {
