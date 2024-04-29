@@ -2,6 +2,7 @@ package com.github.novicezk.midjourney.service;
 
 
 import cn.hutool.core.text.CharSequenceUtil;
+import com.alibaba.fastjson.JSON;
 import com.github.novicezk.midjourney.ReturnCode;
 import com.github.novicezk.midjourney.domain.DiscordAccount;
 import com.github.novicezk.midjourney.enums.BlendDimensions;
@@ -209,8 +210,10 @@ public class DiscordServiceImpl implements DiscordService {
 		headers.set("Authorization", this.account.getUserToken());
 		headers.set("User-Agent", this.account.getUserAgent());
 		HttpEntity<String> httpEntity = new HttpEntity<>(paramsStr, headers);
-		log.info("真实调用接口的参数,url={},httpEntity={}",url,JSONObject.valueToString(httpEntity));
-		return this.restTemplate.postForEntity(url, httpEntity, String.class);
+		log.info("真实调用接口的参数,url={},httpEntity={}",url, JSON.toJSON(httpEntity));
+		ResponseEntity<String> stringResponseEntity = this.restTemplate.postForEntity(url, httpEntity, String.class);
+		log.info("真实调用接口的参数-返回,url={},httpEntity={}",url,JSON.toJSON(stringResponseEntity));
+		return stringResponseEntity;
 	}
 
 	private Message<Void> postJsonAndCheckStatus(String paramsStr) {
