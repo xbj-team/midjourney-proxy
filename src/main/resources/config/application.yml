@@ -23,11 +23,11 @@ knife4j:
           - com.github.novicezk.midjourney.controller
 mj:
   accounts[0]:
-    userToken: MTIzNDA3NzcwNTYzNzU5NzE4NA.GCE4a3.w7KrX8T539vKpkH5IbFqfTZOr9cH7xWDWW4VJo
-    guild-id: 1234079108527558726
-    channel-id: 1234079108527558729
-    coreSize: 10
-    queueSize: 20
+    userToken: MTIzMDM2MDU1NTYxMzcyMDY1Nw.GVeC1q.wzI8RfE9abhoiNAdaawkmw2_yKNuvr8isb3zMg
+    guild-id: 1230362459248791592
+    channel-id: 1230362459248791596
+    coreSize: 5
+    queueSize: 25
     tag: ai,fast
 #  accounts[0]:
 #    userToken: MTIyODkxOTIxMjc1NjQzNTA1NA.GszHoi.BP0ZWXe_B6HCalrmqb4zUDao4f3SiEKhRu41bs111
@@ -64,7 +64,7 @@ mj:
   notify-hook: http://aigc.xcwhai.com/xbj/midjounery/callback
   task-store:
     type: redis
-    timeout: 10000d
+    timeout: 60d
 
 spring:
   redis:
