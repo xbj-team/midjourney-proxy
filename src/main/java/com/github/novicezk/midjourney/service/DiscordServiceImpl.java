@@ -8,6 +8,7 @@ import com.github.novicezk.midjourney.domain.DiscordAccount;
 import com.github.novicezk.midjourney.enums.BlendDimensions;
 import com.github.novicezk.midjourney.result.Message;
 import com.github.novicezk.midjourney.support.DiscordHelper;
+import com.github.novicezk.midjourney.support.MJCommandInitializer;
 import com.github.novicezk.midjourney.support.SpringContextHolder;
 import eu.maxschuster.dataurl.DataUrl;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +38,7 @@ public class DiscordServiceImpl implements DiscordService {
 	private final String discordInteractionUrl;
 	private final String discordAttachmentUrl;
 	private final String discordMessageUrl;
+	private final Map<String, HashMap<String,  com.alibaba.fastjson.JSONObject>> mjCommandInfos= MJCommandInitializer.getMJCommandInfos();
 
 	public DiscordServiceImpl(DiscordAccount account, RestTemplate restTemplate, Map<String, String> paramsMap) {
 		this.account = account;
@@ -59,8 +62,20 @@ public class DiscordServiceImpl implements DiscordService {
 	public Message<Void> imagine(String prompt, String nonce) {
 		String paramsStr = replaceInteractionParams(this.paramsMap.get("imagine"), nonce);
 		JSONObject params = new JSONObject(paramsStr);
-		params.getJSONObject("data").getJSONArray("options").getJSONObject(0)
+		//////////////////////////////////////
+		log.info("aaaa:{}",mjCommandInfos.size());
+		HashMap<String, com.alibaba.fastjson.JSONObject> hashMap = mjCommandInfos.get(account.getId());
+		com.alibaba.fastjson.JSONObject root = hashMap.get("imagine");
+		log.info("bbbb:{}",root);
+		params.put("application_id",root.get("application_id"));
+		JSONObject data = params.getJSONObject("data");
+		data.put("id",root.get("id"));
+		data.put("version",root.get("version"));
+		data.put("type",root.get("type"));
+		/////////////////////////////////////
+		data.getJSONArray("options").getJSONObject(0)
 				.put("value", prompt);
+		log.info("cccc:{}",params.toString());
 		return postJsonAndCheckStatus(params.toString());
 	}
 
@@ -108,6 +123,17 @@ public class DiscordServiceImpl implements DiscordService {
 		String paramsStr = replaceInteractionParams(this.paramsMap.get("describe"), nonce)
 				.replace("$file_name", fileName)
 				.replace("$final_file_name", finalFileName);
+		//////////////////////////////////////
+		JSONObject params = new JSONObject(paramsStr);
+		HashMap<String, com.alibaba.fastjson.JSONObject> hashMap = mjCommandInfos.get(account.getId());
+		com.alibaba.fastjson.JSONObject root = hashMap.get("describe");
+		log.info("mjcommand image:{}",root);
+		params.put("application_id",root.get("application_id"));
+		JSONObject data = params.getJSONObject("data");
+		data.put("id",root.get("id"));
+		data.put("version",root.get("version"));
+		data.put("type",root.get("type"));
+		/////////////////////////////////////
 		return postJsonAndCheckStatus(paramsStr);
 	}
 

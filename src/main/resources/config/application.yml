@@ -23,7 +23,7 @@ knife4j:
           - com.github.novicezk.midjourney.controller
 mj:
   accounts[0]:
-    userToken: MTIzMDM2MDU1NTYxMzcyMDY1Nw.GVeC1q.wzI8RfE9abhoiNAdaawkmw2_yKNuvr8isb3zMg
+    userToken: MTIzMDM2MDU1NTYxMzcyMDY1Nw.GWAu4Q.6sGgaYQqoscXPUizK-k5zq9H-OpB-DnsZTaIAk
     guild-id: 1230362459248791592
     channel-id: 1230362459248791596
     coreSize: 5
