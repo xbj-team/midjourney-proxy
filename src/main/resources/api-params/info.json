@@ -13,24 +13,24 @@
     "options": [
 
     ],
-    "application_command": {
-      "id": "972289487818334209",
-      "type": 1,
-      "application_id": "936929561302675456",
-      "version": "1166847114203123799",
-      "name": "info",
-      "description": "View information about your profile.",
-      "dm_permission": true,
-      "integration_types": [
-        0
-      ],
-      "global_popularity_rank": 2,
-      "options": [
-
-      ],
-      "description_localized": "View information about your profile.",
-      "name_localized": "info"
-    },
+//    "application_command": {
+//      "id": "972289487818334209",
+//      "type": 1,
+//      "application_id": "936929561302675456",
+//      "version": "1166847114203123799",
+//      "name": "info",
+//      "description": "View information about your profile.",
+//      "dm_permission": true,
+//      "integration_types": [
+//        0
+//      ],
+//      "global_popularity_rank": 2,
+//      "options": [
+//
+//      ],
+//      "description_localized": "View information about your profile.",
+//      "name_localized": "info"
+//    },
     "attachments": [
 
     ]

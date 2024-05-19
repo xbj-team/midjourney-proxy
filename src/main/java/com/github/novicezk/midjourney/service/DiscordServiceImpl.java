@@ -55,6 +55,18 @@ public class DiscordServiceImpl implements DiscordService {
 	public Message<Void> info(String nonce) {
 		String paramsStr = replaceInteractionParams(this.paramsMap.get("info"), nonce);
 		JSONObject params = new JSONObject(paramsStr);
+		//////////////////////////////////////
+		log.info("info-aaaa:{}",mjCommandInfos.size());
+		HashMap<String, com.alibaba.fastjson.JSONObject> hashMap = mjCommandInfos.get(account.getId());
+		com.alibaba.fastjson.JSONObject root = hashMap.get("info");
+		log.info("info-bbbb:{}",root);
+		params.put("application_id",root.get("application_id"));
+		JSONObject data = params.getJSONObject("data");
+		data.put("id",root.get("id"));
+		data.put("version",root.get("version"));
+		data.put("type",root.get("type"));
+		/////////////////////////////////////
+		log.info("info-cccc:{}",params.toString());
 		return postJsonAndCheckStatus(params.toString());
 	}
 
@@ -63,10 +75,10 @@ public class DiscordServiceImpl implements DiscordService {
 		String paramsStr = replaceInteractionParams(this.paramsMap.get("imagine"), nonce);
 		JSONObject params = new JSONObject(paramsStr);
 		//////////////////////////////////////
-		log.info("aaaa:{}",mjCommandInfos.size());
+		log.info("imagine-aaaa:{}",mjCommandInfos.size());
 		HashMap<String, com.alibaba.fastjson.JSONObject> hashMap = mjCommandInfos.get(account.getId());
 		com.alibaba.fastjson.JSONObject root = hashMap.get("imagine");
-		log.info("bbbb:{}",root);
+		log.info("imagine-bbbb:{}",root);
 		params.put("application_id",root.get("application_id"));
 		JSONObject data = params.getJSONObject("data");
 		data.put("id",root.get("id"));
@@ -75,7 +87,7 @@ public class DiscordServiceImpl implements DiscordService {
 		/////////////////////////////////////
 		data.getJSONArray("options").getJSONObject(0)
 				.put("value", prompt);
-		log.info("cccc:{}",params.toString());
+		log.info("imagine-cccc:{}",params.toString());
 		return postJsonAndCheckStatus(params.toString());
 	}
 
@@ -124,17 +136,19 @@ public class DiscordServiceImpl implements DiscordService {
 				.replace("$file_name", fileName)
 				.replace("$final_file_name", finalFileName);
 		//////////////////////////////////////
+		log.info("describe-aaaa:{}",mjCommandInfos.size());
 		JSONObject params = new JSONObject(paramsStr);
 		HashMap<String, com.alibaba.fastjson.JSONObject> hashMap = mjCommandInfos.get(account.getId());
 		com.alibaba.fastjson.JSONObject root = hashMap.get("describe");
-		log.info("mjcommand image:{}",root);
+		log.info("describe-bbbbb:{}",root);
 		params.put("application_id",root.get("application_id"));
 		JSONObject data = params.getJSONObject("data");
 		data.put("id",root.get("id"));
 		data.put("version",root.get("version"));
 		data.put("type",root.get("type"));
 		/////////////////////////////////////
-		return postJsonAndCheckStatus(paramsStr);
+		log.info("describe-ccccc:{}", params.toString());
+		return postJsonAndCheckStatus(params.toString());
 	}
 
 	@Override
