@@ -2,6 +2,7 @@ package com.github.novicezk.midjourney.service;
 
 
 import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson.JSON;
 import com.github.novicezk.midjourney.ReturnCode;
 import com.github.novicezk.midjourney.domain.DiscordAccount;
@@ -60,11 +61,13 @@ public class DiscordServiceImpl implements DiscordService {
 		HashMap<String, com.alibaba.fastjson.JSONObject> hashMap = mjCommandInfos.get(account.getId());
 		com.alibaba.fastjson.JSONObject root = hashMap.get("info");
 		log.info("info-bbbb:{}",root);
-		params.put("application_id",root.get("application_id"));
-		JSONObject data = params.getJSONObject("data");
-		data.put("id",root.get("id"));
-		data.put("version",root.get("version"));
-		data.put("type",root.get("type"));
+		if(ObjectUtil.isNotNull(root)) {
+			params.put("application_id", root.get("application_id"));
+			JSONObject data = params.getJSONObject("data");
+			data.put("id", root.get("id"));
+			data.put("version", root.get("version"));
+			data.put("type", root.get("type"));
+		}
 		/////////////////////////////////////
 		log.info("info-cccc:{}",params.toString());
 		return postJsonAndCheckStatus(params.toString());
@@ -76,14 +79,16 @@ public class DiscordServiceImpl implements DiscordService {
 		JSONObject params = new JSONObject(paramsStr);
 		//////////////////////////////////////
 		log.info("imagine-aaaa:{}",mjCommandInfos.size());
+		JSONObject data = params.getJSONObject("data");
 		HashMap<String, com.alibaba.fastjson.JSONObject> hashMap = mjCommandInfos.get(account.getId());
 		com.alibaba.fastjson.JSONObject root = hashMap.get("imagine");
 		log.info("imagine-bbbb:{}",root);
-		params.put("application_id",root.get("application_id"));
-		JSONObject data = params.getJSONObject("data");
-		data.put("id",root.get("id"));
-		data.put("version",root.get("version"));
-		data.put("type",root.get("type"));
+		if(ObjectUtil.isNotNull(root)) {
+			params.put("application_id", root.get("application_id"));
+			data.put("id", root.get("id"));
+			data.put("version", root.get("version"));
+			data.put("type", root.get("type"));
+		}
 		/////////////////////////////////////
 		data.getJSONArray("options").getJSONObject(0)
 				.put("value", prompt);

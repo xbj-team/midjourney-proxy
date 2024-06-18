@@ -23,14 +23,14 @@ knife4j:
           - com.github.novicezk.midjourney.controller
 mj:
   accounts[0]:
-    userToken: MTI1MjQ2MDIwMDk5NzI5NDE4Mg.GkRSn4.4qLOP6WrHFtpBni6xa98QCtJY_obg_4R4uEjk0
+    userToken: MTI1MjQ2MDIwMDk5NzI5NDE4Mg.GWNa1L.f6M2A63H-du65qsxwxJOeXn945B7o8Hjxi2Hhg
     guild-id: 1252467529645953125
     channel-id: 1252467529645953128
     coreSize: 1
     queueSize: 10
     tag: ai,fast
   accounts[1]:
-    userToken: MTI1MjQ2ODQ1NzQ5MzIzNzg0Mw.GRtmiU.uHBo5PkEBU6fuNSDGn8c1tMELQM5Dt2gbDkkI0
+    userToken: MTI1MjQ2ODQ1NzQ5MzIzNzg0Mw.G2R0fT.o6HYw4bovrhBfQ5YKOcIfI5FlCbxGuMu0XIRpY
     guild-id: 1252468823081222154
     channel-id: 1252468823081222157
     coreSize: 1
