@@ -184,7 +184,7 @@ public class DiscordInstanceImpl implements DiscordInstance {
 			boolean result = false;
 			do {
 				log.info("redis 111:{}", 111);
-				long seconds = RandomUtil.randomInt(5, 10);
+				long seconds = RandomUtil.randomInt(10, 20);
 				log.info("redis seconds:{}", seconds);
 				Boolean b = taskStoreService.lock(key, null, seconds, TimeUnit.SECONDS);
 				log.info("redis result:{}", b);

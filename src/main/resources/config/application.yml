@@ -23,42 +23,20 @@ knife4j:
           - com.github.novicezk.midjourney.controller
 mj:
   accounts[0]:
-    userToken: MTIzMDM2MDU1NTYxMzcyMDY1Nw.GWAu4Q.6sGgaYQqoscXPUizK-k5zq9H-OpB-DnsZTaIAk
-    guild-id: 1230362459248791592
-    channel-id: 1230362459248791596
-    coreSize: 5
-    queueSize: 25
+    userToken: MTI1MjQ2MDIwMDk5NzI5NDE4Mg.GkRSn4.4qLOP6WrHFtpBni6xa98QCtJY_obg_4R4uEjk0
+    guild-id: 1252467529645953125
+    channel-id: 1252467529645953128
+    coreSize: 1
+    queueSize: 10
     tag: ai,fast
-#  accounts[0]:
-#    userToken: MTIyODkxOTIxMjc1NjQzNTA1NA.GszHoi.BP0ZWXe_B6HCalrmqb4zUDao4f3SiEKhRu41bs111
-#    guild-id: 1228962965617901568111
-#    channel-id: 1228962965617901571111
-#    coreSize: 10
-#    queueSize: 20
-#    tag: ai
-#  accounts[1]:
-#    userToken: MTIyODkxOTIxMjc1NjQzNTA1NA.GszHoi.BP0ZWXe_B6HCalrmqb4zUDao4f3SiEKhRu41bs111
-#    guild-id: 1228952985460015155111
-#    channel-id: 1228952986097811499111
-#    coreSize: 10
-#    queueSize: 20
-#    tag: fast
-#  accounts[1]:
-#    userToken: MTIyMDI0OTg5MjgxMTk2NDQzNw.G_4Bmd.TDpsOeLVBNPYRzJqpz5H_LpBmvECCg8nCDmKec
-#    guild-id: 1220251207642255390
-#    channel-id: 1220251207642255393
-#  accounts[1]:
-#    userToken: MTIyMTMzMDE0NzY2ODY1NjE1MQ.GhHgoB.Vm7wT1Jqbo_IP9zLkpcwmBIYXhLDxIMaXQL-Vw
-#    guild-id: 1221334710953840641
-#    channel-id: 1221334711461478462
-#  accounts[2]:
-#    userToken: MTE4MTg2NTkxNTU1ODY1ODA5MQ.GSQ0qo.RdH353bUZnrpgDfXxsS2jtdhAYtEa5wlFdxJhk
-#    guild-id: 1181866555231965285
-#    channel-id: 1181866555231965288
-#  discord:
-#    guild-id: 1220251207642255390
-#    user-token: MTIyMDI0OTg5MjgxMTk2NDQzNw.GIXRMZ.7HkjmSWzN3uqWwnRKzAgpbMGhVyvAdoXJ2wvEM
-#    channel-id: 1220251207642255393
+  accounts[1]:
+    userToken: MTI1MjQ2ODQ1NzQ5MzIzNzg0Mw.GRtmiU.uHBo5PkEBU6fuNSDGn8c1tMELQM5Dt2gbDkkI0
+    guild-id: 1252468823081222154
+    channel-id: 1252468823081222157
+    coreSize: 1
+    queueSize: 10
+    tag: fast
+
 
 
   notify-hook: http://aigc.xcwhai.com/xbj/midjounery/callback
